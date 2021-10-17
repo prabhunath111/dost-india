@@ -47,91 +47,88 @@ class _ChatScreenState extends State<ChatScreen> {
             alignment: Alignment.topCenter,
             children: [
               Image.asset(chatBg, width: width,height: height,fit: BoxFit.cover),
-              SingleChildScrollView(
-                child: GetBuilder<ChatController>(
-                      builder: (logic) {
-                       return Column(
-                         children: [
-                           const SizedBox(height: 4.0),
-                           SizedBox(height: height*0.82,
-                           width: width,
-                           child: (logic.getMessages.isNotEmpty)?Padding(
-                             padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                             child: ListView.builder(
-                               controller: logic.getScrollController,
-                                 shrinkWrap: true,
-                                 physics: const ScrollPhysics(),
-                                 itemCount: logic.getMessages.length,
-                                 itemBuilder: (context, index){
-                                 bool isMe = logic.getMessages[index]['sentByMe']==socket.id;
-                                   return Column(
-                                     crossAxisAlignment: (isMe)?CrossAxisAlignment.end:CrossAxisAlignment.start,
-                                     children:  [
-                                       Container(
-                                         decoration: BoxDecoration(
-                                           color: (isMe)?const Color(0xff9cb8a3):Colors.white,
-                                           borderRadius: BorderRadius.circular(5.0)
-                                         ),
-                                         child: Padding(
-                                           padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-                                           child: Column(
-                                             crossAxisAlignment: CrossAxisAlignment.start,
-                                             children: [
-                                               Row(
-                                                 mainAxisSize: MainAxisSize.min,
-                                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                 children: [
-                                                   Text(logic.getMessages[index]['name'], style: const TextStyle(color: Colors.teal, fontSize: 18, fontWeight: FontWeight.w600),),
-                                                   const SizedBox(width: 4.0),
-                                                   const Icon(Icons.account_circle),
-                                                 ],
-                                               ),
-                                               const SizedBox(height: 6.0),
-                                               Text(logic.getMessages[index]['message']),
-                                               const SizedBox(height: 6.0),
-                                               Text(logic.getMessages[index]['time'], style: const TextStyle(color: Colors.blueGrey, fontSize: 12),textScaleFactor: 1.0)
-                                             ],
-                                           ),
-                                         ),
-                                       ),
-                                       const SizedBox(height: 6.0,)
-                                     ],
-                                   );
-                                 }),
-                           ):Container()),
-                           Container(
-                             decoration:  BoxDecoration(
-                               color: Colors.white,
-                               borderRadius: BorderRadius.circular(20.0),
-                             ),
-                             width: width,
-                             child: Padding(
-                               padding: const EdgeInsets.only(left: 10.0),
-                               child: Center(
-                                 child: TextField(
-                                   controller: msgController,
-                                   textDirection: TextDirection.ltr,
-                                   cursorColor: Colors.grey,
-                                   cursorHeight: 2,
-                                   decoration: InputDecoration(
-                                       hintText: "Message",
-                                       border: InputBorder.none,
-                                       suffixIcon: IconButton(onPressed: (){
-                                         var msgJson = {"message": msgController.text, "sentByMe": socket.id, "name": chatController.getUser, "time": UtilsClass.getDateTime(DateTime.now().toLocal())};
-                                         chatController.sendMessage(msgJson, socket, context);
-                                         msgController.clear();
-                                       }, icon: const Icon(Icons.send, color: Colors.grey,))
-                                   ),
-                                 ),
-                               ),
-                             ),
-                           )
-
-                         ],
-                       );
-  },
-),
+              SizedBox(height: height*0.80,
+              child: GetBuilder<ChatController>(
+                builder: (logic) {
+                  return (logic.getMessages.isNotEmpty)?Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: ListView.builder(
+                        controller: logic.getScrollController,
+                        shrinkWrap: true,
+                        itemCount: logic.getMessages.length,
+                        itemBuilder: (context, index){
+                          bool isMe = logic.getMessages[index]['sentByMe']==socket.id;
+                          return Column(
+                            crossAxisAlignment: (isMe)?CrossAxisAlignment.end:CrossAxisAlignment.start,
+                            children:  [
+                              Container(
+                                decoration: BoxDecoration(
+                                    color: (isMe)?const Color(0xff9cb8a3):Colors.white,
+                                    borderRadius: BorderRadius.circular(5.0)
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(logic.getMessages[index]['name'], style: const TextStyle(color: Colors.teal, fontSize: 18, fontWeight: FontWeight.w600),),
+                                          const SizedBox(width: 4.0),
+                                          const Icon(Icons.account_circle),
+                                        ],
+                                      ),
+                                      const SizedBox(height: 6.0),
+                                      Text(logic.getMessages[index]['message']),
+                                      const SizedBox(height: 6.0),
+                                      Text(logic.getMessages[index]['time'], style: const TextStyle(color: Colors.blueGrey, fontSize: 12),textScaleFactor: 1.0)
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 6.0,)
+                            ],
+                          );
+                        }),
+                  ):Container();
+                },
               ),
+              ),
+              Positioned(
+                bottom: 0.0,
+                  right: 0.0,
+                  left: 0.0,
+                  child: Container(
+                    decoration:  BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                    width: width,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 10.0),
+                      child: Center(
+                        child: TextField(
+                          controller: msgController,
+                          textDirection: TextDirection.ltr,
+                          cursorColor: Colors.grey,
+                          cursorHeight: 2,
+                          decoration: InputDecoration(
+                              hintText: "Message",
+                              border: InputBorder.none,
+                              suffixIcon: IconButton(onPressed: (){
+                                var msgJson = {"message": msgController.text, "sentByMe": socket.id, "name": chatController.getUser, "time": UtilsClass.getDateTime(DateTime.now().toLocal())};
+                                chatController.sendMessage(msgJson, socket, context);
+                                msgController.clear();
+                              }, icon: const Icon(Icons.send, color: Colors.grey,))
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+              )
+
             ],
           ),
         ),
