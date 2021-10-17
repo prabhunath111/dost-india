@@ -1,0 +1,1 @@
+const String chatBg = 'assets/images/wallpaper.png';
