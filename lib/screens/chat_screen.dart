@@ -1,7 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:new_chat/constants/image_strings.dart';
+import 'package:new_chat/constants/urls.dart';
 import 'package:new_chat/controller/chat_controller.dart';
 import 'package:new_chat/utils/utils_class.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
@@ -23,7 +23,7 @@ class _ChatScreenState extends State<ChatScreen> {
   void initState() {
     // TODO: implement initState
     socket = IO.io(
-        'https://a82f-203-192-253-129.ngrok.io',
+        socketUrl,
         IO.OptionBuilder()
             .setTransports(['websocket'])
             .disableAutoConnect()
