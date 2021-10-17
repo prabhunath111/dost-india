@@ -12,29 +12,33 @@ class FirstScreen extends StatelessWidget {
     final ChatController chatController = Get.put(ChatController());
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text(
-            "USER"
-          ),
-        ),
         body:Center(
-          child: Card(
-            elevation: 0.5,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                 TextField(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Card(
+              elevation: 0.5,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: TextField(
                   controller: nameController,
-                   textDirection: TextDirection.ltr,
-                   decoration: const InputDecoration(
-                    hintText: "Your Name"
+                  textDirection: TextDirection.ltr,
+                  cursorColor: Colors.grey,
+                  decoration: const InputDecoration(
+                      hintText: "Your Name",
+                      border: InputBorder.none)
                   ),
                 ),
-                ElevatedButton(onPressed: (){
-                  chatController.addUser(nameController.text);
-                  Get.off(()=> const ChatScreen());
-                }, child: const Text("Join Chat"))
-              ],
+                  ElevatedButton(onPressed: (){
+                    if(nameController.text.isNotEmpty){
+                      chatController.addUser(nameController.text);
+                    }else{}
+                    Get.off(()=> const ChatScreen());
+                  }, child: const Text("Join Chat"))
+                ],
+              ),
             ),
           ),
         ),

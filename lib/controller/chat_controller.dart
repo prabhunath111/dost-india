@@ -4,7 +4,7 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class ChatController extends GetxController {
   final ScrollController _scrollController = ScrollController();
-  String user = '';
+  String user = 'Anonymous';
   List messages = [];
 
   List get getMessages => messages;
